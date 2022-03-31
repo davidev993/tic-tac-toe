@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html >
+<head>
+	<title>Tris </title>
+	<meta charset="utf-8"/>
+<!------------------------------------------------------------------------------------>
+<style type="text/css">
+.tastistile {
+	font-size: 8vh;
+    text-align: center;
+   margin:auto ;
+  width: 30%;
+  height ;
+
+    border-radius: 10px;
+    background-color: rgba(220, 0, 0, 1);
+    background-image: linear-gradient(to top left,
+                                      rgba(0, 0, 0, .2),
+                                      rgba(0, 0, 0, .2) 30%,
+                                      rgba(0, 0, 0, 0));
+}
+
+
+.tastistile:after {
+  content: "";
+  display: block;
+  padding-bottom: 30%;}
+body {
+background: rgb(0,0,0);
+background: radial-gradient(circle, rgba(0,0,0,1) 71%, rgba(255,0,0,1) 100%);
+}
+
+.altribottoni {
+	font-size: 3vh;
+	color: black;
+	font-style: italic;
+	background-color: #de0d0d9e;
+	border-radius: 12px;
+text-align: center;
+box-shadow: 10px 5px 5px #ff1b1b;
+margin-top: 3vh
+}
+
+#com{
+font-size: 5vh;
+color: black;
+background-color: #de0d0d9e;
+border-radius: 12px;
+font-style: italic;
+text-align: center;
+border: 3vh;
+box-shadow: 10px 5px 5px #ff1b1b;
+margin: 0;
+	}
+
+
+#sottocom {
+font-size: 1.5vh;
+color: #de0d0d9e;
+text-align: center;
+padding-bottom: 1vh;
+max-height: 5vh;
+	}
+
+
+	#controlla {
+		font-size: 3vh;
+color: black;
+background-color: #de0d0d9e;
+border-radius: 12px;
+font-style: italic;
+text-align: center;
+border: 3vh;
+box-shadow: 10px 5px 5px #ff1b1b;
+margin-top: 2vh;
+border: 3vh;
+	}
+
+	#controlla:hover  {
+		transform: rotate(-10deg);
+		    box-shadow: -1px 0px 14px 15px #ff1b1b;
+		}
+</style>	
+
+
+<!------------------------------------------------------------------------------------>
+</head>
+
+<body>
+		</div>
+	<h3 id="com">Ti aspettavo...</h3>
+	<h4 id="sottocom">Clicca su uno degli spazi rossi per posizionare la tua X. Poi toccherà a me. Lo scopo è fare tris.</h2>
+</div>
+
+<!--<audio >
+  <source src="applausi.mp3" id="applausi" type="audio/mpeg">
+ 
+</audio> -->
+
+	<div id="tuttibottoni" >
+
+		<div class="bottoni1">
+			<button id="primo" class="tastistile">.</button> 
+			<button id="secondo"class="tastistile">.</button>
+			<button id="terzo"class="tastistile">.</button>
+		</div>
+	
+		<div class="bottoni2">
+			<button id="quarto"class="tastistile">.</button> 
+			<button id="quinto"class="tastistile">.</button>
+			<button id="sesto"class="tastistile">.</button>
+		</div>
+	
+		<div class="bottoni3">
+			<button id="settimo"class="tastistile">.</button> 
+			<button id="ottavo"class="tastistile">. </button>
+			<button id="nono"class="tastistile">.</button>
+
+	
+			<button id="controlla">Hai vinto per caso?? io comunque passo</button><br>
+				<div class="altribottoni">
+			<input type="radio" checked id="ita" name="lingua" value="ita">
+			<label >Italiano</label><br>
+			<input type="radio" id="fra" name="lingua" value="fra">
+			<label >Français</label><br>
+<br>
+			<input type="radio" checked id="difmax" name="dif" value="difmax">
+			<label id="difmaxc">Difficoltà massima</label><br>
+			<input type="radio" id="difmed" name="dif" value="difmed">
+			<label id="difmedc">Difficoltà media</label><br>
+			<input type="radio" id="difmin" name="dif" value="difmin">
+			<label id="difminc" >Difficoltà minima</label><br>
+		</div>
+<!------------------------------------------------------------------------------------>
+<script type="text/javascript">
+var i = 0
+var escicv= 0
+var a =getRndInteger(0,10)
+var pazzoi= "E io dove metto il o?! Hai occupato tutti i posti"
+var pazzof= "Et moi je mets où le o?! T'as pris toute la place"
+var finepartita="nd"
+var difvar= 1 //(difficoltà massima preimpostata)
+var difcaso =Math.random() //numero casuale tra 0 e 1 (se minore di difvar, la strategia funziona, altrimenti no)
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;}
+
+//messaggio accoglienza Ascus
+var person = prompt("Please enter your name:");
+   if (person==""){alert("Casper, Ready to Lose?")}
+    else {alert(person+", Ready To Lose?")}
+
+
+//bottoni difficoltà
+
+
+difmax.addEventListener("click",()=>  {(difvar= 1) }) //se clicco i bottoni, difvar cambia
+difmed.addEventListener("click",()=>  {(difvar= 0.6) })
+difmin.addEventListener("click",()=>  {(difvar= 0) })
+//traduzione tasti difficoltà
+fra.addEventListener("click",()=> {document.getElementById("difmaxc").textContent= "Difficulté maximale";document.getElementById("difmedc").innerHTML= "Difficulté moyenne";document.getElementById("difminc").innerHTML= "Difficulté minimale (conseillée...)"})
+ita.addEventListener("click",()=> {document.getElementById("difmaxc").innerHTML= "Difficoltà massima";document.getElementById("difmedc").innerHTML= "Difficoltà media";document.getElementById("difminc").innerHTML= "Difficoltà minima (consigliata...)"})
+
+
+//cambio lingua messaggio  di benvenuto
+fra.addEventListener("click",  ()=>  {document.getElementById("com").textContent="Je t'attendais..."} )
+ita.addEventListener("click",  ()=>  {document.getElementById("com").textContent="Ti aspettavo..."} )
+//cambio lingua messaggio passo
+fra.addEventListener("click",  ()=>  {document.getElementById("controlla").textContent="T'as gagné par hasard? de toute maniere, c'est ton tour"} )
+ita.addEventListener("click",  ()=>  {document.getElementById("controlla").textContent="Hai vinto per caso?? io comunque passo"} )
+//cambio lingua spiegazioni gioco
+fra.addEventListener("click",  ()=>  {document.getElementById("sottocom").textContent="Clique sur l'une des cases rouges pour placer ton X. Ensuite, ça sera mon tour. Le but est de faire du tic-tac-toe"} )
+ita.addEventListener("click",  ()=>  {document.getElementById("sottocom").textContent="Clicca su uno degli spazi rossi per posizionare la tua X. Poi toccherà a me. Lo scopo è fare tris"} )
+
+
+//al click, i tasti diventano X, i si incrementa e il tasto prende valore "cliccato"
+primo.addEventListener("click", ()=> { if(primo.value=="") {(i=i+1)&&(document.getElementById("primo").innerHTML= "<span style='color: black'>x</span>") && (document.getElementById("primo").value="cliccato")}})	
+secondo.addEventListener("click", ()=> {if(secondo.value=="") {(i=i+1)&&(document.getElementById("secondo").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("secondo").value="cliccato")}})	
+terzo.addEventListener("click", ()=> {if(terzo.value=="") {(i=i+1)&&(document.getElementById("terzo").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("terzo").value="cliccato")}})	
+quarto.addEventListener("click", ()=> {if(quarto.value=="") {(i=i+1)&&(document.getElementById("quarto").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("quarto").value="cliccato")}})	
+quinto.addEventListener("click", ()=> {if(quinto.value=="") {(i=i+1)&&(document.getElementById("quinto").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("quinto").value="cliccato")}})	
+sesto.addEventListener("click", ()=> {if(sesto.value=="") {(i=i+1)&&(document.getElementById("sesto").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("sesto").value="cliccato")}})	
+settimo.addEventListener("click", ()=> {if(settimo.value=="") {(i=i+1)&&(document.getElementById("settimo").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("settimo").value="cliccato")}})	
+ottavo.addEventListener("click", ()=> {if(ottavo.value=="") {(i=i+1)&&(document.getElementById("ottavo").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("ottavo").value="cliccato")}})	
+nono.addEventListener("click", ()=> {if(nono.value=="") {(i=i+1)&&(document.getElementById("nono").innerHTML="<span style='color: black'>x</span>")&& (document.getElementById("nono").value="cliccato")}})	
+
+//capisce che il tasto è cliccato (i>0) e ne trasforma uno in o
+	
+controlla.addEventListener("click", function() {i++}) // al click del tasto, il pc fa un altro giro e si accorge di aver perso (se è il caso) oppure user passa
+
+document.addEventListener("click",()=>  {
+	if				(i==1 && ita.checked)  { document.getElementById("com").textContent="Aspetta 2 secondi, penso a come fregarti"; setTimeout(() => cervello(), 2222)}
+ else if 		(i==1 && fra.checked)  { document.getElementById("com").textContent="Attends 2 seconds, je reflechis a comment t'avoir"; setTimeout(() => cervello(), 2222)}
+
+
+
+
+
+
+function cervello() {	let vpo=0; let vso=0; let vto=0; let vpv=0; let vsv=0; let vtv=0; let vta=0; let vtb=0; let a= Math.floor(Math.random() * 8); console.log(i);   console.log(a)
+//condizioni di sconfitta ita
+	let fspri = "Ti ho lasciato vincere, prima riga.."; 
+	let fssri = "Che noia.. ti concedo la vittoria sulla seconda riga";						//scelta nomi: FraseSconfittaSecondaColonnaIta
+	let fstri = "Per puro caso hai fatto tris sulla terza riga";
+	let fspci = "La prima colonna è brutta, per questo te l'ho lasciata";
+	let fssci = "Io devo proprio andare adesso, partita finita"
+	let fstci = "Hai barato sulla terza colonna!!!";
+	let fstai = "Mi dicono che il tris vale anche in obliquo: non lo sapevo. Da rifare!"
+	let fstbi = "Vedo dalla webcam che avete giocato in tre, così non vale" 
+//condizioni di sconfitta fra
+	let fsprf ="Je t'ai laissé gagner, premiere ligne.."
+	let fssrf ="Quel ennui.. je te concede la victoire sur la deuxieme ligne"
+	let fstrf ="Par pur hasard t'as fait tris sur la troisieme ligne"
+	let fspcf ="La premiere colonne est moche donc je l'ai laissé a toi"
+	let fsscf ="Je dois partir en toute urgence, donc le jeu est terminé"
+	let fstcf ="T'as triché sur la troisieme colonne!!!"
+	let fstaf ="On vient de me dire que le tiktaktoe est valide aussi en oblique: je le savais pas. A rejouer!"
+	let fstbf ="Grace a ta webcam je vois que vous etes trois a jouer, match pas valide!"
+//condizioni di vittoria ita
+	let fvpri ="Guarda la prima riga: ovviamente ho vinto!"
+	let fvprf ="Regarde la premiere ligne: de toute évidence, j'ai gagné!"
+	let fvsri ="E' stato così facile... seconda riga"
+	let fvsrf ="Ça a ete tellement facile... deuxieme ligne"
+	let fvtri ="Fai finta di nulla?! guarda la terza riga!"
+	let fvtrf ="Tu fais semblant de rien?! regarde la troisieme ligne!"
+	let fvpci ="Qualcuno ha vinto... Io per la precisione"
+	let fvpcf ="Quelqu'un a gagné... Moi pour être precis"
+	let fvsci ="Lo sai che puoi fare X anche sulla seconda colonna? Ops, troppo tardi"
+	let fvscf ="Tu sais que tu peux mettre des X sur la deuxieme colonne aussi? Oups, trop tard"
+	let fvtci ="HO VINTO!!!"
+	let fvtcf ="J'AI GAGNE'!!!"
+	let fvtai ="La vittoria in obliquo vale doppio"
+	let fvtaf ="La victioire en oblique compte double"
+	let fvtbi ="Ti ho fregato ancora!"
+	let fvtbf ="Je t'ai eu encore!"
+
+	let fsi ="Speravi davvero di vincere?! 10101010 (un pc che ride)"
+	let fsf ="T'esperais vraiment de gagner?! 10101010 (un ordi qui rit)"
+//commento attesa turno 
+	let turno = "E' il tuo turno"
+	
+if (fra.checked)  { turno= "C'est ton tour"}
+	else  {turno="E' il tuo turno"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+//uscita d'emergenza
+if(escicv==50 && ita.checked) {document.getElementById("com").innerHTML="Sto impazzendo..."; alert(pazzoi)}
+else if (escicv==50 && fra.checked) {document.getElementById("com").innerHTML="je deviens fou..."; alert(pazzof)}
+
+//controllo condizioni doppio turno ---------------------------------------------------------------------------------------------------------
+else if(i>1 && ita.checked) {alert("Hai barato gioco finito! Non hai aspettato il mio turno e mi sono accorto"); document.getElementById("com").innerHTML="Io non gioco più, ecco!"}
+else if(i>1 && fra.checked) {alert("T'as triché, jeu fini! T'as pas attendu mon tour et je me suis rendu compte"); document.getElementById("com").innerHTML="Moi je ne joue plus, voilà!"}
+
+	//controllo condizioni di vittoria per X ---------------------------------------------------------------------------------------------------------
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("secondo").value=="cliccato" && document.getElementById("terzo").value=="cliccato" && document.getElementById("primo").textContent=="x"&& document.getElementById("secondo").textContent=="x"&& document.getElementById("terzo").textContent=="x") { if(ita.checked==true) {document.getElementById("com").innerHTML=fspri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fsprf; alert("Fin du jeu")}} //tris X sulla prima riga
+
+else if ( document.getElementById("quarto").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("sesto").value=="cliccato" && document.getElementById("quarto").textContent=="x"&& document.getElementById("quinto").textContent=="x"&& document.getElementById("sesto").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fssri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fssrf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("settimo").value=="cliccato" && document.getElementById("ottavo").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("settimo").textContent=="x"&& document.getElementById("ottavo").textContent=="x"&& document.getElementById("nono").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fstri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fstrf; alert("Fin du jeu")}}
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("quarto").value=="cliccato" && document.getElementById("settimo").value=="cliccato" && document.getElementById("primo").textContent=="x"&& document.getElementById("quarto").textContent=="x"&& document.getElementById("settimo").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fspci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fspcf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("secondo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("ottavo").value=="cliccato" && document.getElementById("secondo").textContent=="x"&& document.getElementById("quinto").textContent=="x"&& document.getElementById("ottavo").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fssci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fsscf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("terzo").value=="cliccato" && document.getElementById("sesto").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("terzo").textContent=="x"&& document.getElementById("sesto").textContent=="x"&& document.getElementById("nono").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fstci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fstcf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("primo").textContent=="x"&& document.getElementById("quinto").textContent=="x"&& document.getElementById("nono").textContent=="x" ){if(ita.checked==true) {document.getElementById("com").innerHTML=fstai; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fstaf; alert("Fin du jeu")}}
+
+
+else if ( document.getElementById("terzo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("settimo").value=="cliccato" && document.getElementById("terzo").textContent=="x"&& document.getElementById("quinto").textContent=="x"&& document.getElementById("settimo").textContent=="x") {if(ita.checked==true) {document.getElementById("com").innerHTML=fstbi; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fstbf; alert("Fin du jeu")}}
+
+
+
+//controllo condizioni di vittoria per O ---------------------------------------------------------------------------------------------------------
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("secondo").value=="cliccato" && document.getElementById("terzo").value=="cliccato" && document.getElementById("primo").textContent=="o"&& document.getElementById("secondo").textContent=="o"&& document.getElementById("terzo").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvpri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvprf; alert("Fin du jeu")}} //tris X sulla prima riga
+
+else if ( document.getElementById("quarto").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("sesto").value=="cliccato" && document.getElementById("quarto").textContent=="o"&& document.getElementById("quinto").textContent=="o"&& document.getElementById("sesto").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvsri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvsrf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("settimo").value=="cliccato" && document.getElementById("ottavo").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("settimo").textContent=="o"&& document.getElementById("ottavo").textContent=="o"&& document.getElementById("nono").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvtri; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvtrf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("quarto").value=="cliccato" && document.getElementById("settimo").value=="cliccato" && document.getElementById("primo").textContent=="o"&& document.getElementById("quarto").textContent=="o"&& document.getElementById("settimo").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvpci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvpcf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("secondo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("ottavo").value=="cliccato" && document.getElementById("secondo").textContent=="o"&& document.getElementById("quinto").textContent=="o"&& document.getElementById("ottavo").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvsci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvscf; alert("Fin du jeu")}}
+
+	else if ( document.getElementById("terzo").value=="cliccato" && document.getElementById("sesto").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("terzo").textContent=="o"&& document.getElementById("sesto").textContent=="o"&& document.getElementById("nono").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvtci; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvtcf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("primo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("nono").value=="cliccato" && document.getElementById("primo").textContent=="o"&& document.getElementById("quinto").textContent=="o"&& document.getElementById("nono").textContent=="o" ){if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvtaf; alert("Fin du jeu")}}
+
+else if ( document.getElementById("terzo").value=="cliccato" && document.getElementById("quinto").value=="cliccato" && document.getElementById("settimo").value=="cliccato" && document.getElementById("terzo").textContent=="o"&& document.getElementById("quinto").textContent=="o"&& document.getElementById("settimo").textContent=="o") {if(ita.checked==true) {document.getElementById("com").innerHTML=fvtbi; alert("Fine della partita")} else {document.getElementById("com").innerHTML=fvtb; alert("Fin du jeu")}}
+
+
+
+
+//la partita continua perché nessuno ha vinto ---------------------------------------------------------------------------------------------------------
+//Strategia d'attacco
+
+//inizia il pc, il tris è vuoto: attacco all'angolo 3
+else if (difvar>difcaso && a<6 && document.getElementById("primo").value==""&&document.getElementById("secondo").value==""&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("terzo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+
+//proseguimento attacco all'angolo 3
+//risposta su 1//vittoria
+else if (difvar>difcaso &&  document.getElementById("primo").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta su 2 ancora 1 mossa
+else if (difvar>difcaso &&  document.getElementById("secondo").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta su 4 //vittoria
+else if (difvar>difcaso &&  document.getElementById("quarto").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("secondo").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 5 //vittoria
+else if (difvar>difcaso &&  document.getElementById("quinto").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("secondo").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 6 // ancora 1 mossa 
+else if (difvar>difcaso &&  document.getElementById("sesto").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("secondo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 7 // ancora 1 mossa 
+else if (difvar>difcaso &&  document.getElementById("settimo").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("secondo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 8 //vittoria
+else if (difvar>difcaso &&  document.getElementById("ottavo").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("secondo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 9 //vittoria
+else if (difvar>difcaso &&  document.getElementById("nono").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("secondo").value=="") {escicv++ ;document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+//terzo turno:
+//risposta su 2 finale
+else if (difvar>difcaso &&  document.getElementById("secondo").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").textContent=="x"&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("nono").innerHTML="<span style='color: black'>o</span>"; document.getElementById("nono").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 6 finale
+else if (difvar>difcaso &&  document.getElementById("sesto").textContent=="x"&&document.getElementById("primo").value==""&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("settimo").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 7 finale
+else if (difvar>difcaso &&  document.getElementById("settimo").textContent=="x"&&document.getElementById("primo").textContent=="o"&&document.getElementById("terzo").textContent=="o"&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("secondo").textContent=="x"&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("nono").innerHTML="<span style='color: black'>o</span>"; document.getElementById("nono").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+
+//inizia il pc, il tris è vuoto: attacco centrale
+else if (difvar>difcaso && a>5 && document.getElementById("primo").value==""&&document.getElementById("secondo").value==""&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").value==""&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+//proseguimento attacco centrale
+//risposta sui lati
+// risposta sul 2 o sul 4
+else if (difvar>difcaso &&  document.getElementById("primo").value==""&&(document.getElementById("secondo").textContent=="x"||document.getElementById("quarto").textContent=="x")&& document.getElementById("terzo").value==""&&(document.getElementById("quarto").value==""||document.getElementById("secondo").value=="")&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//risposta sul 6 o 8
+else if (difvar>difcaso &&  document.getElementById("primo").value==""&&(document.getElementById("sesto").textContent=="x"||document.getElementById("ottavo").textContent=="x")&& document.getElementById("terzo").value==""&&(document.getElementById("sesto").value==""||document.getElementById("ottavo").value=="")&&document.getElementById("quinto").textContent=="o"&&document.getElementById("secondo").value==""&&document.getElementById("settimo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("nono").innerHTML="<span style='color: black'>o</span>"; document.getElementById("nono").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+
+
+//terzo turno attacco centrale
+//caso risposta avversaria su 4/8, pc clicca 3 
+else if (difvar>difcaso  && document.getElementById("primo").value=="cliccato"&&(document.getElementById("quarto").textContent=="x"||document.getElementById("ottavo").textContent=="x")&&document.getElementById("terzo").value==""&&document.getElementById("sesto").value==""&&document.getElementById("quinto").textContent=="o"&&(document.getElementById("quarto").value==""||document.getElementById("ottavo").value=="")&&document.getElementById("settimo").value==""&&document.getElementById("nono").value=="cliccato") {escicv++ ;document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("terzo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+//caso risposta avversaria 2/6, pc clicca 7
+else if (difvar>difcaso  && document.getElementById("primo").value=="cliccato"&&(document.getElementById("secondo").textContent=="x"||document.getElementById("sesto").textContent=="x")&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&(document.getElementById("secondo").value==""||document.getElementById("sesto").value=="")&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="cliccato") {escicv++ ;document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+
+//risposta avversaria sugli angoli
+//1
+else if (difvar>difcaso && document.getElementById("primo").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("nono").innerHTML="<span style='color: black'>o</span>"; document.getElementById("nono").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//2
+else if (difvar>difcaso && document.getElementById("terzo").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("primo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//3
+else if (difvar>difcaso && document.getElementById("settimo").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("nono").value=="") {escicv++ ;document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("terzo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+//4
+else if (difvar>difcaso && document.getElementById("nono").textContent=="x"&&document.getElementById("secondo").value==""&&document.getElementById("terzo").value==""&&document.getElementById("quarto").value==""&&document.getElementById("quinto").textContent=="o"&&document.getElementById("sesto").value==""&&document.getElementById("settimo").value==""&&document.getElementById("ottavo").value==""&&document.getElementById("primo").value=="") {escicv++ ;document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1} 
+
+
+
+
+
+
+
+//prima riga
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("secondo").textContent=="o"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpri; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvprf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("terzo").textContent=="o"  && document.getElementById("secondo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpri; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvprf; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("secondo").textContent=="o"&& document.getElementById("terzo").textContent=="o"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpri; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvprf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}} 
+
+//seconda riga
+else if ((difvar>difcaso) &&document.getElementById("quarto").textContent=="o"&& document.getElementById("quinto").textContent=="o"  && document.getElementById("sesto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsri; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvsrf; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("quarto").textContent=="o"&& document.getElementById("sesto").textContent=="o"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsri; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvsrf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quinto").textContent=="o"&& document.getElementById("sesto").textContent=="o"  && document.getElementById("quarto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsri; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvsrf; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1}} 
+
+//terza riga
+else if ((difvar>difcaso) &&document.getElementById("settimo").textContent=="o"&& document.getElementById("ottavo").textContent=="o"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtri; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtrf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("settimo").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("ottavo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtri; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtrf; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("ottavo").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtri; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtrf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}}  
+//prima colonna
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("quarto").textContent=="o"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpci; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvpcf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("settimo").textContent=="o"  && document.getElementById("quarto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpci; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvpcf; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quarto").textContent=="o"&& document.getElementById("settimo").textContent=="o"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvpci; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvpcf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}} 
+
+//seconda colonna
+else if ((difvar>difcaso) &&document.getElementById("secondo").textContent=="o"&& document.getElementById("quinto").textContent=="o"  && document.getElementById("ottavo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsci; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvscf; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("secondo").textContent=="o"&& document.getElementById("ottavo").textContent=="o"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsci; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvscf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quinto").textContent=="o"&& document.getElementById("ottavo").textContent=="o"  && document.getElementById("secondo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvsci; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvscf; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1}}
+//terza colonna
+else if ((difvar>difcaso) &&document.getElementById("terzo").textContent=="o"&& document.getElementById("sesto").textContent=="o"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtci; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtcf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("terzo").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("sesto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtci; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtcf; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("sesto").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtci; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtcf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}}
+//obliquo dall'alto
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("quinto").textContent=="o"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtaf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtaf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quinto").textContent=="o"&& document.getElementById("nono").textContent=="o"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtaf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}}
+
+//obliquo dal basso
+else if ((difvar>difcaso) &&document.getElementById("settimo").textContent=="o"&& document.getElementById("quinto").textContent=="o"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtbi; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtbf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("settimo").textContent=="o"&& document.getElementById("terzo").textContent=="o"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtaf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quinto").textContent=="o"&& document.getElementById("terzo").textContent=="o"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fvtai; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fvtaf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}}
+
+
+// strategia di difesa
+//prima riga
+else if ((difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("secondo").textContent=="x"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) &&document.getElementById("primo").textContent=="x"&& document.getElementById("terzo").textContent=="x"  && document.getElementById("secondo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("secondo").textContent=="x"&& document.getElementById("terzo").textContent=="x"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}} 
+
+//seconda riga
+else if ((difvar>difcaso) && document.getElementById("quarto").textContent=="x"&& document.getElementById("quinto").textContent=="x"  && document.getElementById("sesto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1}} 
+else if ((difvar>difcaso) && document.getElementById("quarto").textContent=="x"&& document.getElementById("sesto").textContent=="x"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) && document.getElementById("quinto").textContent=="x"&& document.getElementById("sesto").textContent=="x"  && document.getElementById("quarto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1}}  
+
+//terza riga
+else if ((difvar>difcaso) && document.getElementById("settimo").textContent=="x"&& document.getElementById("ottavo").textContent=="x"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("settimo").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("ottavo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("ottavo").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}}  
+
+//prima colonna
+else if (( difvar>difcaso)&& document.getElementById("primo").textContent=="x"&& document.getElementById("quarto").textContent=="x"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}} 
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("settimo").textContent=="x"  && document.getElementById("quarto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quarto").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("quarto").textContent=="x"&& document.getElementById("settimo").textContent=="x"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}} 
+
+//seconda colonna
+else if (( difvar>difcaso) && document.getElementById("secondo").textContent=="x"&& document.getElementById("quinto").textContent=="x"  && document.getElementById("ottavo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1}} 
+else if (( difvar>difcaso) && document.getElementById("secondo").textContent=="x"&& document.getElementById("ottavo").textContent=="x"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if ((difvar>difcaso) &&document.getElementById("quinto").textContent=="x"&& document.getElementById("ottavo").textContent=="x"  && document.getElementById("secondo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1}}
+
+//terza colonna
+else if (( difvar>difcaso) && document.getElementById("terzo").textContent=="x"&& document.getElementById("sesto").textContent=="x"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}} 
+else if (( difvar>difcaso) && document.getElementById("terzo").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("sesto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>";document.getElementById("sesto").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("sesto").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}}
+
+//obliquo dall'alto
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("quinto").textContent=="x"  && document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";i=i-1}} 
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("quinto").textContent=="x"&& document.getElementById("nono").textContent=="x"  && document.getElementById("primo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}}
+
+//obliquo dal basso
+else if(( difvar>difcaso) && document.getElementById("settimo").textContent=="x"&& document.getElementById("quinto").textContent=="x"  && document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}} 
+else if (( difvar>difcaso) && document.getElementById("settimo").textContent=="x"&& document.getElementById("terzo").textContent=="x"  && document.getElementById("quinto").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}  
+else if (( difvar>difcaso) && document.getElementById("quinto").textContent=="x"&& document.getElementById("terzo").textContent=="x"  && document.getElementById("settimo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML=fsi; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML=fsf; document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";i=i-1}}
+
+//casi particolari 
+//Difesa da inizio in angolo
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("terzo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").value==""&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}
+
+else if (( difvar>difcaso) && document.getElementById("terzo").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("primo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").value==""&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}
+
+else if (( difvar>difcaso) && document.getElementById("settimo").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("primo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").value==""&& document.getElementById("sesto").value==""&& document.getElementById("terzo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}
+
+else if (( difvar>difcaso) && document.getElementById("nono").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("primo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").value==""&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("terzo").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";i=i-1}}
+
+//Difesa da inizio da angolo secondo turno (se l'avversario sceglie l'angolo opposto al suo, evitare di scegliere gli altri angoli)
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("terzo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").textContent=="o"&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").textContent=="x") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";i=i-1}}
+
+else if (( difvar>difcaso) && document.getElementById("terzo").textContent=="x"&& document.getElementById("secondo").value==""&& document.getElementById("primo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").textContent=="o"&& document.getElementById("sesto").value==""&& document.getElementById("settimo").textContent=="x"&& document.getElementById("ottavo").value==""&& document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>";document.getElementById("secondo").value="cliccato";i=i-1}}
+
+//Difesa da attacco centrale (rispondere scegliendo l'angolo)
+
+else if (( difvar>difcaso) && document.getElementById("primo").value==""&& document.getElementById("secondo").value==""&& document.getElementById("terzo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").textContent=="x"&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").value=="") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("primo").innerHTML="<span style='color: black'>o</span>";document.getElementById("primo").value="cliccato";i=i-1}}
+else if (( difvar>difcaso) && document.getElementById("primo").textContent=="o"&& document.getElementById("secondo").value==""&& document.getElementById("terzo").value==""&& document.getElementById("quarto").value==""&& document.getElementById("quinto").textContent=="x"&& document.getElementById("sesto").value==""&& document.getElementById("settimo").value==""&& document.getElementById("ottavo").value==""&& document.getElementById("nono").textContent=="x") { if(ita.checked==true) {document.getElementById("com").innerHTML="E' il tuo turno"; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1} else {document.getElementById("com").innerHTML="C'est ton tour"; document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";i=i-1}}
+
+
+ 
+
+
+
+
+
+
+//la partita continua, non c'è priorità: o messa a caso
+
+
+
+
+
+	else if (a==1 && document.getElementById("primo").value=="") {document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==1 && document.getElementById("primo").value=="cliccato") {escicv++ ;  cervello() }
+	else if (a==1 && document.getElementById("primo").value=="") {document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+
+	
+
+
+
+
+
+
+	else if (a==1 && document.getElementById("primo").value=="cliccato") {escicv++ ;  cervello() }
+	else if (a==1 && document.getElementById("primo").value=="") {document.getElementById("primo").innerHTML="<span style='color: black'>o</span>"; document.getElementById("primo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==2 && document.getElementById("secondo").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==2 && document.getElementById("secondo").value=="") {document.getElementById("secondo").innerHTML="<span style='color: black'>o</span>" ; document.getElementById("secondo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==3 && document.getElementById("terzo").value=="cliccato") {escicv++ ;cervello(); }
+	else if (a==3 && document.getElementById("terzo").value=="") {document.getElementById("terzo").innerHTML="<span style='color: black'>o</span>";document.getElementById("terzo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==4 && document.getElementById("quarto").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==4 && document.getElementById("quarto").value=="") {document.getElementById("quarto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("quarto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==5 && document.getElementById("quinto").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==5 && document.getElementById("quinto").value=="") {document.getElementById("quinto").innerHTML="<span style='color: black'>o</span>";document.getElementById("quinto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==6 && document.getElementById("sesto").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==6 && document.getElementById("sesto").value=="") {document.getElementById("sesto").innerHTML="<span style='color: black'>o</span>"; document.getElementById("sesto").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==7 && document.getElementById("settimo").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==7 && document.getElementById("settimo").value=="") {document.getElementById("settimo").innerHTML="<span style='color: black'>o</span>";document.getElementById("settimo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==8 && document.getElementById("ottavo").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==8 && document.getElementById("ottavo").value=="") {document.getElementById("ottavo").innerHTML="<span style='color: black'>o</span>";document.getElementById("ottavo").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+	else if (a==0 && document.getElementById("nono").value=="cliccato") {escicv++ ;cervello()}
+	else if (a==0 && document.getElementById("nono").value=="") {document.getElementById("nono").innerHTML="<span style='color: black'>o</span>";document.getElementById("nono").value="cliccato";document.getElementById("com").innerHTML=turno;i=i-1}
+
+	
+	
+	else {console.log("altro")}}})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
